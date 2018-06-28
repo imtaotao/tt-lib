@@ -1,0 +1,30 @@
+export declare class Record {
+    context: AudioContext;
+    filename: string;
+    volume: number;
+    private successFn;
+    private errorFn;
+    private worker;
+    private recording;
+    private playing;
+    private audio;
+    private audioBlob;
+    private interleaveData;
+    private recorder;
+    private audioInput;
+    private config;
+    constructor(filename: any, successFn: any, errorFn: any);
+    listenerWorker(): void;
+    recordEnded([audioBlob, interleaveData]: [any, any]): void;
+    createEnv(): void;
+    connectDevice(): Promise<MediaStream>;
+    startRecord(): void;
+    stopRecord(): void;
+    play(): void;
+    pause(): void;
+    download(): void;
+    static logError(infor: string, isErr?: boolean): void;
+    static inlineWorker(func: any): any;
+    static download(blob: Blob, filename: string): void;
+    static createAudioEl(blob: any): HTMLAudioElement;
+}
