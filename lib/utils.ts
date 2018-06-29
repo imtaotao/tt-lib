@@ -1,16 +1,45 @@
 export const AudioCtx = new AudioContext()
 
 export const platform = (() => {
-  const browser = typeof window
-  const node = typeof global
-  const electron = browser && node
+  const haveGlobal = typeof global === 'object'
+  const haveBrowserWindow = typeof this.window === 'object'
+
+  const browser = haveBrowserWindow && !haveGlobal
+  const node = !browser && haveGlobal && global.constructor.name === 'Object'
+  const webpack = !haveBrowserWindow && haveGlobal && global.constructor.name === 'Window'
+  const electron = haveBrowserWindow && haveGlobal && global.constructor.name === 'Window'
 
   return {
     browser,
     node,
     electron,
+    webpack,
   }
 })()
+
+export function isString (string:any) {
+  return Object.prototype.toString.call(string) === '[object String]'
+}
+
+export function isNumber (number:any) {
+  return !Number.isNaN(number) && Object.prototype.toString.call(number) === '[object Number]'
+}
+
+export function isObject (object:any) {
+  return Object.prototype.toString.call(object) === '[object Object]'
+}
+
+export function isFunction (func:any) {
+  return Object.prototype.toString.call(func) === '[object Function]'
+}
+
+export function isClass (classBody:any) {
+  return !isString(classBody) && String(classBody).slice(0, 5) === 'class'
+}
+
+export function isUndef (val:any) {
+  return val === undefined || val === null
+}
 
 export function logError (tipHead:string, infor:string, err = false, warn = false) {
   const msg = `[${tipHead} tip] --> ${infor}.\n`
@@ -42,28 +71,4 @@ export function inlineWorker (func) {
     type: 'text/javascript',
   }))
   return new (<any>window).Worker(url)
-}
-
-export function isString (string:any) {
-  return Object.prototype.toString.call(string) === '[object String]'
-}
-
-export function isNumber (number:any) {
-  return !Number.isNaN(number) && Object.prototype.toString.call(number) === '[object Number]'
-}
-
-export function isObject (object:any) {
-  return Object.prototype.toString.call(object) === '[object Object]'
-}
-
-export function isFunction (func:any) {
-  return Object.prototype.toString.call(func) === '[object Function]'
-}
-
-export function isClass (classBody:any) {
-  return !isString(classBody) && String(classBody).slice(0, 5) === 'class'
-}
-
-export function isUndef (val:any) {
-  return val === undefined || val === null
 }

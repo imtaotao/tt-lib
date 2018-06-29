@@ -143,7 +143,7 @@ export class Record {
     numChannels: 2,
   }
 
-  constructor (filename, successFn, errorFn) {
+  public constructor (filename, successFn, errorFn) {
     this.filename = filename || 'record'
     this.successFn = successFn || (() => {})
     this.errorFn = errorFn
@@ -151,7 +151,7 @@ export class Record {
     this.createEnv()
   }
 
-  listenerWorker () {
+  private listenerWorker () {
     this.worker.onmessage = (e) => {
       switch(e.data.command) {
         case 'exportWAV':
@@ -162,7 +162,7 @@ export class Record {
     this.worker.onerror = this.errorFn
   }
 
-  recordEnded ([audioBlob, interleaveData]) {
+  private recordEnded ([audioBlob, interleaveData]) {
     this.audioBlob = audioBlob
     this.interleaveData = interleaveData.buffer
     this.audio = null
@@ -170,7 +170,7 @@ export class Record {
     this.successFn()
   }
 
-  createEnv () {
+  private createEnv () {
     this.connectDevice()
     .then(stream => {
       const { context } = this
@@ -195,13 +195,13 @@ export class Record {
     })
   }
 
-  connectDevice () {
+  private connectDevice () {
     return navigator.mediaDevices.getUserMedia({audio: true})
     .then(stream => stream)
     .catch(<any>this.errorFn)
   }
 
-  startRecord () {
+  public startRecord () {
     if (this.recording) {
       return this.errorFn(`In recording`)
     }
@@ -221,7 +221,7 @@ export class Record {
     connect()
   }
 
-  stopRecord () {
+  public stopRecord () {
     if (!this.recording) {
       return this.errorFn(`No recording`)
     }
@@ -232,7 +232,7 @@ export class Record {
     })
   }
 
-  play () {
+  public play () {
     if (this.playing) return this.errorFn('Is playing')
     if (!this.audioBlob && !this.audio) {
       return this.errorFn(`No audio resources`)
@@ -251,7 +251,7 @@ export class Record {
     this.audio.play()
   }
 
-  pause () {
+  public pause () {
     if (!this.playing) {
       return this.errorFn('Not playing')
     }
@@ -260,7 +260,7 @@ export class Record {
     this.playing = false
   }
 
-  download () {
+  public download () {
     if (this.recording) return this.errorFn(`In recording`)
     if (!this.audioBlob) return this.errorFn(`Audio blob is [${this.audioBlob}]`)
 

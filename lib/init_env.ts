@@ -1,27 +1,35 @@
 import { platform } from './utils'
 
-function initRequsetAnimation () {
+declare const window:any
+
+function initBrowserAndElectron () {
   window.requestAnimationFrame =
-  (<any>window).requestAnimationFrame      ||
-  (<any>window).webkitRequestAnimationFrame||
-  (<any>window).mozRequestAnimationFrame   ||
-  (<any>window).oRequestAnimationFrame     ||
-  (<any>window).msRequestAnimationFrame	   ||
+  window.requestAnimationFrame      ||
+  window.webkitRequestAnimationFrame||
+  window.mozRequestAnimationFrame   ||
+  window.oRequestAnimationFrame     ||
+  window.msRequestAnimationFrame	  ||
   function (callback) {
     return window.setTimeout(callback, 1000 / 60)
   }
 
   window.cancelAnimationFrame =
-  (<any>window).cancelAnimationFrame 	     ||
-  (<any>window).webkitCancelAnimationFrame ||
-  (<any>window).mozCancelAnimationFrame	   ||
-  (<any>window).oCancelAnimationFrame      ||
-  (<any>window).msCancelAnimationFrame     ||
+  window.cancelAnimationFrame 	     ||
+  window.webkitCancelAnimationFrame  ||
+  window.mozCancelAnimationFrame	   ||
+  window.oCancelAnimationFrame       ||
+  window.msCancelAnimationFrame      ||
   clearTimeout
+
+  window.AudioContext =
+  window.AudioContext       ||
+  window.webkitAudioContext ||
+  window.mozAudioContext    ||
+  window.msAudioContext
 }
 
 export function initEnv () {
   if (platform.browser || platform.electron) {
-    initRequsetAnimation()
+    initBrowserAndElectron()
   }
 }

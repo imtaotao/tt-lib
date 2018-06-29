@@ -14,10 +14,10 @@ export declare class Record {
     private audioInput;
     private config;
     constructor(filename: any, successFn: any, errorFn: any);
-    listenerWorker(): void;
-    recordEnded([audioBlob, interleaveData]: [any, any]): void;
-    createEnv(): void;
-    connectDevice(): Promise<MediaStream>;
+    private listenerWorker();
+    private recordEnded([audioBlob, interleaveData]);
+    private createEnv();
+    private connectDevice();
     startRecord(): void;
     stopRecord(): void;
     play(): void;

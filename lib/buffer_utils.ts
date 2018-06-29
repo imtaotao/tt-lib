@@ -12,8 +12,8 @@ export function bufferToArrayBuffer (buffer:Buffer) : ArrayBuffer {
 }
 
 export function arrayBufferToBuffer (arraybuffer:ArrayBuffer) : Buffer {
-  if (platform.browser) {
-    logError('Audio', 'platform must "node" or "electron"', true)
+  if (platform.browser || platform.webpack) {
+    logError('Audio', '[ Buffer.arrayBufferToBuffer ] method Must be used in "node" or "electron"', true)
   }
 
   const buffer = new Buffer(arraybuffer.byteLength)
