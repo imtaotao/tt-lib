@@ -68,9 +68,9 @@ class EventQueue {
       return
     }
 
-    if (!isFunction(func)) logError('Event', `[ flag function ] is not a function`, true)
+    if (!isFunction(func)) logError('Event', `[ ${func} ] is not a function`, true)
     if (keyWord && keyWord !== 'common' && keyWord !== 'once') {
-      logError('Event', '[ keyWord ] must be a "common" or "once"', true)
+      logError('Event', `[ keyWord ] must be a "common" or "once", But now is ${keyWord}`, true)
     }
 
     const { commonFuns, onceFuns } = this
@@ -108,6 +108,7 @@ export class Event {
 
   public create (type:string) : Event {
     if (!isString(type)) logError('Event', `[ event name ] is not a string`, true)
+    if (this[type]) logError('Event', 'The current queue already exists. Please do not create it again')
 
     this[type] = new EventQueue(type)
 
