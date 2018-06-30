@@ -1,6 +1,7 @@
 import tt from './build'
 
 window.t = tt
+window.m = tt.Matrix
 // const slideInstace = new tt.Slide({
 //   dom  : imgOne,		// 绑定的dom元素
 //   mode : 'circle',	// 轮播模式，'circle' 或 'rect'

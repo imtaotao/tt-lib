@@ -29,7 +29,7 @@ function initBrowserAndElectron () {
 }
 
 export function initEnv () {
-  if (platform.browser || platform.electron) {
+  if (platform.browser || platform.electron || platform.webpack) {
     initBrowserAndElectron()
   }
 }

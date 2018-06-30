@@ -159,7 +159,7 @@ export class Record {
           break
       }
     }
-    this.worker.onerror = this.errorFn
+    this.worker.onerror = <any>this.errorFn
   }
 
   private recordEnded ([audioBlob, interleaveData]) {
@@ -241,7 +241,7 @@ export class Record {
     this.playing = true
 
     if (!this.audio) {
-      this.audio = Record.createAudioEl(this.audioBlob)
+      this.audio = Record.createAudioElement(this.audioBlob)
       this.audio.volume = this.volume
       this.audio.onended = (e) => {
           this.playing = false
@@ -283,7 +283,7 @@ export class Record {
   }
 
   static
-  createAudioEl (blob) {
+  createAudioElement (blob) {
     const url = window.URL.createObjectURL(blob)
     const audio = document.createElement('audio')
     audio.src = url

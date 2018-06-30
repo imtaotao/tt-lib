@@ -24,7 +24,7 @@ export declare class Record {
     pause(): void;
     download(): void;
     static logError(infor: string, isErr?: boolean): void;
-    static inlineWorker(func: any): any;
+    static inlineWorker(func: any): Worker;
     static download(blob: Blob, filename: string): void;
-    static createAudioEl(blob: any): HTMLAudioElement;
+    static createAudioElement(blob: any): HTMLAudioElement;
 }

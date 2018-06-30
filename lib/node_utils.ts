@@ -1,4 +1,4 @@
-import { platform, logError } from './utils'
+import { platform, logError, require } from './utils'
 
 function envJudgment (methodName:string) {
   if (!platform.node && !platform.electron) {
@@ -51,7 +51,7 @@ export function copyForder (fromPath:string, toPath:string, needCompolete?:boole
 
         fs.stat(toPath, (err, stats) => {
           if (err) throw err
-          console.log(stats.size, size)
+
           stats.size === size
             ? _resolve()
             : copyCompolete()
