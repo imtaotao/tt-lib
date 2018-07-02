@@ -26,24 +26,29 @@ export function require (nodeModule) {
   return require(nodeModule)
 }
 
+export function getClassStr (val:any) : string {
+  return Object.prototype.toString.call(val)
+}
+
 export function isString (string:any) {
-  return Object.prototype.toString.call(string) === '[object String]'
+  return getClassStr(string) === '[object String]'
 }
 
 export function isNumber (number:any) : boolean {
-  return !Number.isNaN(number) && Object.prototype.toString.call(number) === '[object Number]'
+  return !Number.isNaN(number) && getClassStr(number) === '[object Number]'
 }
 
 export function isBoolean (boolean:any) : boolean {
-  return Object.prototype.toString.call(boolean) === '[object Boolean]'
+  return getClassStr(boolean) === '[object Boolean]'
 }
 
 export function isObject (object:any) : boolean {
-  return Object.prototype.toString.call(object) === '[object Object]'
+  return getClassStr(object) === '[object Object]'
 }
 
 export function isFunction (func:any) : boolean {
-  return Object.prototype.toString.call(func) === '[object Function]'
+  const tag = getClassStr(func)
+  return  tag === '[object Function]' || tag === '[object AsyncFunction]' || tag === '[object GeneratorFunction]' || tag === '[object Proxy]'
 }
 
 export function isClass (classBody:any) : boolean {
@@ -76,6 +81,7 @@ export function download (url:Blob | string, filename) {
   let click = document.createEvent('MouseEvents') as any
   (<any>click.initMouseEvent)('click', true, true)
   link.dispatchEvent(click)
+
 }
 
 export function inlineWorker (func) : Worker {
@@ -110,13 +116,13 @@ export function randomString (range = 16) : string {
 }
 
 // 16进制颜色转为rgb颜色
-export function hexToRgb (hex:string, opacity?:number, noCheck?:boolean) : number[] {
+export function hexToRgb (hex:string, noCheck?:boolean) : number[] {
   if (!noCheck && !isString(hex)) {
     logError('Utils', `[ hex ] must be a "string", but now is ${typeof hex}`, true)
   }
-  const reg = /^#([0-9a-fA-f]{3}|[0-9a-fA-f]{6})$/
+  const reg = /^#([0-9a-fA-f]{3}|[0-9a-fA-f]{6}|[0-9a-fA-f]{8})$/
   let color = hex.toLowerCase()
-  
+
   if (!noCheck && (!color || !reg.test(color))) {
     logError('Utils', '[ hex ] does not meet the requirements', true)
   }
@@ -137,8 +143,11 @@ export function hexToRgb (hex:string, opacity?:number, noCheck?:boolean) : numbe
     colorArr.push(parseInt('0x' + color.slice(j, j+2)))
   }
 
-  isNumber(opacity) && colorArr.push(opacity)
-  
+  if (color.length === 9) {
+    const opacity = parseInt('0x' + color.slice(7, 9)) / 255
+    colorArr.push(opacity.toFixed(1))
+  }
+
   return colorArr
 }
 
@@ -158,7 +167,7 @@ export function rgbToHex (rgb:string, noCheck?:boolean) : string {
   if (rgbArr.length === 4) {
     rgbArr.push(Math.round(rgbArr.splice(3, 1)[0] * 255))
   }
-  
+
   for (var i = 0; i < rgbArr.length; i++) {
     let hex = Number(rgbArr[i]).toString(16)
     if (hex.length < 2) {
@@ -168,4 +177,40 @@ export function rgbToHex (rgb:string, noCheck?:boolean) : string {
   }
 
   return hexStr
+}
+
+export function aop (originFun:Function, beforeFun:Function | null, afterFun?:Function) : Function {
+  return function (...args) {
+    if (beforeFun && beforeFun.apply(this, args) === false) return
+
+    const result = originFun.apply(this, args)
+
+    afterFun && afterFun.call(this, ...args, result)
+
+    return result
+  }
+}
+
+export function bind (fun:Function, ctx:Object) : Function {
+  function bound_fun (a) {
+    const l:number = arguments.length
+    return l
+      ? l > 1
+        ? fun.apply(ctx, arguments)
+        : fun.call(ctx, a)
+      : fun.call(ctx)
+  }
+
+  (<any>bound_fun)._length = fun.length
+  return bound_fun
+}
+
+export function isEmptyObj (obj:Object) : boolean {
+  for (const key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      return false
+    }
+  }
+
+  return true
 }

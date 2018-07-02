@@ -3,6 +3,7 @@ import * as Utils from './utils';
 import * as NodeUtils from './node_utils';
 import * as Matrix from './matrix';
 import * as Net from './net';
+import * as FP from './functional_paradigm';
 import { Event } from './events';
 import { Slide } from './canvas_banner';
 import { Record } from './record_audio';
@@ -18,6 +19,7 @@ declare const _default: {
     Queue: typeof Queue;
     Event: typeof Event;
     Net: typeof Net;
-    e: any;
+    FP: typeof FP;
+    e: null;
 };
 export default _default;

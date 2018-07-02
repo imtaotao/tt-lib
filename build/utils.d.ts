@@ -7,6 +7,7 @@ export declare const platform: {
 };
 export declare const AudioCtx: AudioContext;
 export declare function require(nodeModule: any): any;
+export declare function getClassStr(val: any): string;
 export declare function isString(string: any): boolean;
 export declare function isNumber(number: any): boolean;
 export declare function isBoolean(boolean: any): boolean;
@@ -21,5 +22,8 @@ export declare function inlineWorker(func: any): Worker;
 export declare function normalNumber(val: number, max: number, min: number): number;
 export declare function random(max?: number, min?: number, fractionDigits?: number): number;
 export declare function randomString(range?: number): string;
-export declare function hexToRgb(hex: string, opacity?: number, noCheck?: boolean): number[];
+export declare function hexToRgb(hex: string, noCheck?: boolean): number[];
 export declare function rgbToHex(rgb: string, noCheck?: boolean): string;
+export declare function aop(originFun: Function, beforeFun: Function | null, afterFun?: Function): Function;
+export declare function bind(fun: Function, ctx: Object): Function;
+export declare function isEmptyObj(obj: Object): boolean;

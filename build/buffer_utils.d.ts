@@ -10,4 +10,6 @@ export declare function audioBufferToArrayBuffer(audioBuffer: AudioBuffer): Arra
 export declare function arrayBufferToAcResource(ac: AudioContext, arraybuffer: ArrayBuffer, volume?: number): Promise<AudioBufferSourceNode>;
 export declare function mergeArraybuffer(buffers: ArrayBuffer[]): ArrayBuffer;
 export declare function mergeAduioBuffer(buffers: AudioBuffer[]): AudioBuffer;
-export declare function to(input: AudioBuffer): ArrayBuffer;
+export declare function cloneBuffer(buffer: Buffer, isDeep?: boolean): Buffer;
+export declare function cloneArrayBuffer(arrayBuffer: ArrayBuffer): ArrayBuffer;
+export declare function cloneDataView(dataView: DataView, isDeep?: boolean): DataView;

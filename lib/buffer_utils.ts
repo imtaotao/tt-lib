@@ -57,13 +57,13 @@ export function blobToAudioBuffer (blob:Blob) : Promise<AudioBuffer> {
 export function arrayBufferToBlob (arraybuffer:ArrayBuffer, mimeType:string) : Blob {
   return new Blob([arraybuffer], {type: mimeType})
 }
- 
+
 export function audioBufferToArrayBuffer (audioBuffer:AudioBuffer) : ArrayBuffer {
   const channel = audioBuffer.numberOfChannels
 
   function collect (buffers) {
     if (buffers.length < 2) return buffers[0]
-    
+
     let length = buffers[0].length + buffers[1].length
     let result = new Float32Array(length)
     let index = 0
@@ -158,59 +158,30 @@ export function mergeAduioBuffer(buffers:AudioBuffer[]) : AudioBuffer {
   return audioBuffer
 }
 
-export function to (input:AudioBuffer) {
-  const keyStr = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/='
-  var bytes = (input.length/4) * 3;
-  var ab = new ArrayBuffer(bytes);
-  decode(input, ab);
+export function cloneBuffer (buffer:Buffer, isDeep?:boolean) : Buffer {
+  if (isDeep) return buffer.slice()
 
-  function removePaddingChars(input){
-      var lkey = keyStr.indexOf(input.charAt(input.length - 1));
-      if(lkey === 64){
-        return input.substring(0,input.length - 1);
-      }
-      return input;
-  }
+  const length = buffer.length
+  const result = platform.node || platform.electron
+    ? Buffer.allocUnsafe(length)
+    : new (<any>buffer).constructor(length)
 
-  function decode (input, arrayBuffer) {
-      //get last chars to see if are valid
-      input = removePaddingChars(input);
-      input = removePaddingChars(input);
+  buffer.copy(result)
 
-      var bytes = parseInt(<any>((input.length / 4) * 3), 10);
-      
-      var uarray;
-      var chr1, chr2, chr3;
-      var enc1, enc2, enc3, enc4;
-      var i = 0;
-      var j = 0;
-      
-      if (arrayBuffer) {
-          uarray = new Uint8Array(arrayBuffer);
-      } else {
-          uarray = new Uint8Array(bytes);
-      }
+  return result
+}
 
-      input = input.replace(/[^A-Za-z0-9\+\/\=]/g, '');
-      
-      for (i = 0; i < bytes; i += 3) {    
-          //get the 3 octects in 4 ascii chars
-          enc1 = keyStr.indexOf(input.charAt(j++));
-          enc2 = keyStr.indexOf(input.charAt(j++));
-          enc3 = keyStr.indexOf(input.charAt(j++));
-          enc4 = keyStr.indexOf(input.charAt(j++));
+export function cloneArrayBuffer (arrayBuffer:ArrayBuffer) : ArrayBuffer {
+  const result = new (<any>arrayBuffer).constructor(arrayBuffer.byteLength)
+  new Uint8Array(result).set(new Uint8Array(arrayBuffer))
 
-          chr1 = (enc1 << 2) | (enc2 >> 4);
-          chr2 = ((enc2 & 15) << 4) | (enc3 >> 2);
-          chr3 = ((enc3 & 3) << 6) | enc4;
+  return result
+}
 
-          uarray[i] = chr1;            
-          if (enc3 != 64) uarray[i+1] = chr2;
-          if (enc4 != 64) uarray[i+2] = chr3;
-      }
+export function cloneDataView (dataView:DataView, isDeep?:boolean) : DataView {
+  const buffer = isDeep
+    ? cloneArrayBuffer(dataView.buffer)
+    : dataView.buffer
 
-      return uarray;    
-  }
-
-  return ab;
+  return new (<any>dataView).constructor(buffer, dataView.byteOffset, dataView.byteLength)
 }

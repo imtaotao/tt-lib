@@ -7,7 +7,7 @@ class ResponseData {
 
   public constructor(data:Object | any[], responseCallback?:Function) {
     if (!isObject(data) && !Array.isArray(data)) {
-      logError('Response data', `[ response data ] must be a "object" or "array", but now is a ${typeof data}`, true)
+      logError('Response data', `[ response data ] must be a "object" or "array", but now is a "${typeof data}"`, true)
     }
 
     this.originData = data
@@ -71,7 +71,7 @@ class ResponseData {
           // this 为当前数组（值）
           let oldArray = this.slice(0)
 
-          // 调用原生数组方法, this 为数组，为引用类型，当改变 this 值，此处指自动更新
+          // 调用原生数组方法, this 为数组，为引用类型，当改变 this 值，此处值自动更新
           let result = originProto[methodName].apply(this, args)
 
           _self.observe(this, path)

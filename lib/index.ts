@@ -3,11 +3,11 @@ import * as Utils from './utils'
 import * as NodeUtils from './node_utils'
 import * as Matrix from './matrix'
 import * as Net from './net'
+import * as FP from './functional_paradigm'
 import { Event } from './events'
 import { Slide } from './canvas_banner'
 import { Record } from './record_audio'
 import { Queue } from './queue'
-import e from 'audiobuffer-arraybuffer-serializer'
 
 export default {
   AudioContext: new AudioContext(),
@@ -20,5 +20,6 @@ export default {
   Queue,
   Event,
   Net,
-  e,
+  FP,
+  e: null,
 }
