@@ -108,3 +108,64 @@ export function randomString (range = 16) : string {
 
   return string
 }
+
+// 16进制颜色转为rgb颜色
+export function hexToRgb (hex:string, opacity?:number, noCheck?:boolean) : number[] {
+  if (!noCheck && !isString(hex)) {
+    logError('Utils', `[ hex ] must be a "string", but now is ${typeof hex}`, true)
+  }
+  const reg = /^#([0-9a-fA-f]{3}|[0-9a-fA-f]{6})$/
+  let color = hex.toLowerCase()
+  
+  if (!noCheck && (!color || !reg.test(color))) {
+    logError('Utils', '[ hex ] does not meet the requirements', true)
+  }
+
+  // 先转化为六位的颜色值
+  if (color.length === 4) {
+    let newColorStr = '#'
+    for (let i = 1; i < 4; i++) {
+      const s = color.slice(i, i+1)
+      newColorStr += s.concat(s)
+    }
+    color = newColorStr
+  }
+
+  //处理六位的颜色值（'0x'代表的就是十六进制）
+  const colorArr:any = []
+  for (let j = 1; j < 7; j += 2) {
+    colorArr.push(parseInt('0x' + color.slice(j, j+2)))
+  }
+
+  isNumber(opacity) && colorArr.push(opacity)
+  
+  return colorArr
+}
+
+// rgb(a)颜色转为16进制颜色
+export function rgbToHex (rgb:string, noCheck?:boolean) : string {
+  if (!noCheck && !isString(rgb)) {
+    logError('Utils', `[ rgb(a) ] must be a "string", but now is ${typeof rgb}`, true)
+  }
+  if (!noCheck && !/^(rgb(a?)|RGB(A?))/.test(rgb)) {
+    logError('Utils', '[ rgb(a) ] does not meet the requirements', true)
+  }
+
+  const rgbArr:any = rgb.replace(/(?:\(|\)|rgb(a?)|RGB(A?))*/g, '').split(',')
+  let hexStr = '#'
+
+  // 透明度
+  if (rgbArr.length === 4) {
+    rgbArr.push(Math.round(rgbArr.splice(3, 1)[0] * 255))
+  }
+  
+  for (var i = 0; i < rgbArr.length; i++) {
+    let hex = Number(rgbArr[i]).toString(16)
+    if (hex.length < 2) {
+      hex = '0' + hex
+    }
+    hexStr += hex
+  }
+
+  return hexStr
+}

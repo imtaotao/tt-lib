@@ -85,10 +85,10 @@ class EventQueue {
     }
 
     if (!keyWord || keyWord === 'once') {
-      for (let i = 0; i < onceFuns.length; i++) {
-        if (onceFuns[i] === func) {
-          onceFuns.splice(i, 1)
-          i--
+      for (let j = 0; j < onceFuns.length; j++) {
+        if (onceFuns[j] === func) {
+          onceFuns.splice(j, 1)
+          j--
         }
       }
     }

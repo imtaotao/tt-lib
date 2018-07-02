@@ -1,9 +1,8 @@
+import { logError, isFunction } from './utils'
+
 export type endTypes = (...args:any[]) => void
-
 export type UnitFun<T> = (next:UnitFun<T>, ...args:T[]) => void
-
 export type RejisterFun<A> = (next:UnitFun<any>, ...args:A[]) => void
-
 export type QueueEndHook = (args: any[]) => void
 
 export interface QueueTypes {
@@ -28,6 +27,7 @@ export class Queue implements QueueTypes {
   }
 
   public register<A> (fun:RejisterFun<A>) : Queue {
+    if (!isFunction(fun)) logError('Queue', `[ register function ] must be "function", but now is ${typeof fun}`, true)
     const { fx, isInitEmit } = this
     const queue_fun:UnitFun<any> = (next, ...args) => {
 	    fun(next, ...args)

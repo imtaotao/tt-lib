@@ -21,3 +21,5 @@ export declare function inlineWorker(func: any): Worker;
 export declare function normalNumber(val: number, max: number, min: number): number;
 export declare function random(max?: number, min?: number, fractionDigits?: number): number;
 export declare function randomString(range?: number): string;
+export declare function hexToRgb(hex: string, opacity?: number, noCheck?: boolean): number[];
+export declare function rgbToHex(rgb: string, noCheck?: boolean): string;

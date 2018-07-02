@@ -2,6 +2,20 @@ import tt from './build'
 
 window.t = tt
 window.m = tt.Matrix
+window.b = tt.Buffer
+file.onchange = e => {
+  window.f = file.files[0]
+  b.blobToAudioBuffer(file.files[0]).then(r => {      
+    let encoder = new tt.e.Encoder()
+    let arrayBuffer = encoder.execute(r);
+    // let arrayBuffer = b.audioBufferToArrayBuffer(r)
+    console.log(arrayBuffer)
+    window.a = arrayBuffer
+    // var a = b.audioBufferToArrayBuffer(r)
+    // console.log(a)
+    // t.Utils.download(b.arrayBufferToBlob(a, 'audio/mp3'), '笔墨稠.mp3')
+  })
+}
 // const slideInstace = new tt.Slide({
 //   dom  : imgOne,		// 绑定的dom元素
 //   mode : 'circle',	// 轮播模式，'circle' 或 'rect'
@@ -28,3 +42,13 @@ window.m = tt.Matrix
 // left.onclick = _ => slideInstace.preImg()
 
 // right.onclick = _ => slideInstace.nextImg()
+
+window.data = [1, 2, 3, {
+  dd: 'tt',
+  l: {
+    name: 'ff'
+  }
+}]
+tt.Utils.createResponseData(data, (newV, oldV, path, arrName) => {
+  console.log(newV, oldV, path, arrName)
+})

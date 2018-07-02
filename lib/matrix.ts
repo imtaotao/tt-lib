@@ -174,12 +174,13 @@ export function getAttrTransforms (str:HTMLElement | string) {
 	}
 
 	!isString(str) && (str = (<HTMLElement>str).outerHTML.replace((<HTMLElement>str).innerHTML, ''))
-	const reg = /(['"\s])(\w+\([^)]+\))/g
+	console.log(str)
+	const reg = /(transform=)?(['"\s])(\w+\([^)]+\))/g
 	const match:string[] = []
   let res
 
   while (res = reg.exec(<string>str)) {
-    match.push(res[2])
+    match.push(res[3])
   }
 
   return match

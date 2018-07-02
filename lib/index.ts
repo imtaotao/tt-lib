@@ -7,6 +7,7 @@ import { Event } from './events'
 import { Slide } from './canvas_banner'
 import { Record } from './record_audio'
 import { Queue } from './queue'
+import e from 'audiobuffer-arraybuffer-serializer'
 
 export default {
   AudioContext: new AudioContext(),
@@ -19,4 +20,5 @@ export default {
   Queue,
   Event,
   Net,
+  e,
 }

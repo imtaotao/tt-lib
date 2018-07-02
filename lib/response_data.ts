@@ -75,7 +75,7 @@ class ResponseData {
           let result = originProto[methodName].apply(this, args)
 
           _self.observe(this, path)
-          _self.responseCallback(this, oldArray, null)
+          _self.responseCallback(this, oldArray, null, methodName)
 
           return result
         },

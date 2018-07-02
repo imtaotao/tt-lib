@@ -8,11 +8,11 @@ export declare class Slide {
     private defaultUrl;
     private option;
     constructor(option: Slide['option'], imgArr: string[]);
-    private transition(randomStr);
+    private transition;
     stop(): void;
-    private defaultImg(callback);
-    private createImgDOM();
-    private move();
+    private defaultImg;
+    private createImgDOM;
+    private move;
     continue(): void;
     preImg(): void;
     nextImg(): void;
@@ -20,10 +20,10 @@ export declare class Slide {
     specify(num: any): void;
     start(): boolean;
     over(): boolean;
-    private createImg(url);
+    private createImg;
     static random(max: any): number;
     static createCanvas(dom: any): HTMLCanvasElement;
-    private getAnimete(banner);
-    private removeCanvas(dom, banner);
-    private middleware();
+    private getAnimete;
+    private removeCanvas;
+    private middleware;
 }

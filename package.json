@@ -7,6 +7,7 @@
     "i": "rm -rf ./node_modules && yarn",
     "clean": "rm -rf ./build",
     "start": "webpack-dev-server",
+    "buildw": "webpack",
     "build": "yarn clean && tsc --pretty --noEmitOnError",
     "watch": "tsc --watch --pretty --noEmitOnError"
   },

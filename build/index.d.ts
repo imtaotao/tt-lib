@@ -18,5 +18,6 @@ declare const _default: {
     Queue: typeof Queue;
     Event: typeof Event;
     Net: typeof Net;
+    e: any;
 };
 export default _default;

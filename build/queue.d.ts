@@ -15,6 +15,6 @@ export declare class Queue implements QueueTypes {
     private isInitEmit;
     constructor();
     register<A>(fun: RejisterFun<A>): Queue;
-    private emit(...args);
+    private emit;
     remove(start: number, end?: number): Queue;
 }

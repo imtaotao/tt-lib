@@ -6,7 +6,7 @@ function workerBody () {
   const config = {
     bufferLen: 4096,
     numChannels: 2,
-    mime_type: 'audio/wav',
+    mimeType: 'audio/wav',
   }
   let recordBuffer:any[] = []
 
@@ -45,11 +45,11 @@ function workerBody () {
   }
 
   function createAudioBlob (collectRecord:Float32Array) {
-    const { numChannels, mime_type } = config
+    const { numChannels, mimeType } = config
     const interleaveData = encodeWAV(44100, numChannels, collectRecord)
 
     return [
-      new Blob([interleaveData], { type: mime_type }),
+      new Blob([interleaveData], {type: mimeType}),
       interleaveData,
     ]
   }
@@ -129,7 +129,7 @@ export class Record {
   public filename:string
   public volume = 1
   private successFn:Function
-  private errorFn = Record.logError
+  private errorFn:Function
   private worker = Record.inlineWorker(workerBody)
   private recording = false
   private playing = false
@@ -146,7 +146,7 @@ export class Record {
   public constructor (filename, successFn, errorFn) {
     this.filename = filename || 'record'
     this.successFn = successFn || (() => {})
-    this.errorFn = errorFn
+    this.errorFn = errorFn || Record.logError
     this.listenerWorker()
     this.createEnv()
   }
