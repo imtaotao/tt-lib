@@ -140,11 +140,11 @@ export function hexToRgb (hex:string, noCheck?:boolean) : number[] {
   //处理六位的颜色值（'0x'代表的就是十六进制）
   const colorArr:any = []
   for (let j = 1; j < 7; j += 2) {
-    colorArr.push(parseInt('0x' + color.slice(j, j+2)))
+    colorArr.push(+('0x' + color.slice(j, j+2)))
   }
 
   if (color.length === 9) {
-    const opacity = parseInt('0x' + color.slice(7, 9)) / 255
+    const opacity = +('0x' + color.slice(7, 9)) / 255
     colorArr.push(opacity.toFixed(1))
   }
 
@@ -213,4 +213,16 @@ export function isEmptyObj (obj:Object) : boolean {
   }
 
   return true
+}
+
+export function toFastProperties (obj:Object) : Object|never {
+  function FakeConstructor() {}
+  FakeConstructor.prototype = obj
+  const receiver = new FakeConstructor()
+  function ic() {
+    return typeof receiver.foo
+  }
+  ic()
+  ic()
+  return obj
 }

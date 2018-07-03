@@ -5,18 +5,18 @@ import * as Matrix from './matrix'
 import * as Net from './net'
 import * as FP from './functional_paradigm'
 import { Event } from './events'
-import { Slide } from './canvas_banner'
+import { CanvasBanner } from './canvas_banner'
 import { Record } from './record_audio'
 import { Queue } from './queue'
 
 export default {
   AudioContext: new AudioContext(),
+  CanvasBanner,
   NodeUtils,
   Matrix,
   Buffer,
-  Utils,
-  Slide,
   Record,
+  Utils,
   Queue,
   Event,
   Net,

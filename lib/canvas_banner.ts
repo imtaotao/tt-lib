@@ -1,6 +1,6 @@
 import { logError } from './utils'
 
-export class Slide {
+export class CanvasBanner {
   private index = 0
   private animate:Banner[]
   private totalImg:HTMLImageElement[]
@@ -18,7 +18,7 @@ export class Slide {
     defaultUrl?:string,
   }
 
-  public constructor (option:Slide['option'], imgArr:string[]) {
+  public constructor (option:CanvasBanner['option'], imgArr:string[]) {
     if (!option.dom) {
       logError('Canvas banner', 'DOM element must exist ', true)
     }
@@ -102,7 +102,7 @@ export class Slide {
   private defaultImg (callback:Function) {
     const url = this.defaultUrl
     const img = this.createImg(url)
-    const canvas = Slide.createCanvas(this.option.dom)
+    const canvas = CanvasBanner.createCanvas(this.option.dom)
     const ctx = canvas.getContext('2d') as CanvasRenderingContext2D
     img.onload = () => {
       ctx.drawImage(img, 0, 0, canvas.offsetWidth, canvas.offsetHeight)
@@ -133,7 +133,7 @@ export class Slide {
     (<any>this.middleware).isanimate = true
     const randomStr = this.randomStr
                     = (<any>this.middleware).randomStr
-                    = Slide.random(9999999) + Slide.random(9999999).toString(32)
+                    = CanvasBanner.random(9999999) + CanvasBanner.random(9999999).toString(32)
     this.transition(randomStr)(this.totalImg[this.index])
   }
 
@@ -256,7 +256,7 @@ class Banner {
 
   public constructor (dom:HTMLElement, option:Banner['option'], middleware:Function, callback?:Function) {
     if (!option || typeof option !== 'object' || !option.img) return
-    const canvas = Slide.createCanvas(dom)
+    const canvas = CanvasBanner.createCanvas(dom)
     const width = option.width  = canvas.offsetWidth
     const height = option.height = canvas.offsetHeight
     option.direct = width > height ? width : height
@@ -281,8 +281,8 @@ class Banner {
   private position () {
     const { width, height, mode, mount, index, direct } = <any>this.option
     if (mode === 'circle') {
-      this.option.x = Slide.random(width)
-      this.option.y = Slide.random(height)
+      this.option.x = CanvasBanner.random(width)
+      this.option.y = CanvasBanner.random(height)
       this.option.raduis = 0
     }
     if (mode === 'rect') {

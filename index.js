@@ -2,6 +2,7 @@ import tt from './build'
 
 window.t = tt
 window.b = tt.Buffer
+window.fp = tt.FP
 file.onchange = e => {
   window.f = file.files[0]
   b.blobToAudioBuffer(file.files[0]).then(r => {
@@ -19,4 +20,10 @@ function to (audio) {
 function download (arrayBuffer) {
   const bolb = t.Buffer.arrayBufferToBlob(arrayBuffer, 'audio/mp3')
   t.Utils.download(bolb, 'test.mp3')
+}
+
+window.concat = function (a) {
+  return function (x) {
+    return a + x
+  }
 }

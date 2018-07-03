@@ -1,4 +1,4 @@
-export declare class Slide {
+export declare class CanvasBanner {
     private index;
     private animate;
     private totalImg;
@@ -7,7 +7,7 @@ export declare class Slide {
     private imgArr;
     private defaultUrl;
     private option;
-    constructor(option: Slide['option'], imgArr: string[]);
+    constructor(option: CanvasBanner['option'], imgArr: string[]);
     private transition(randomStr);
     stop(): void;
     private defaultImg(callback);

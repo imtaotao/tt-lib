@@ -27,3 +27,4 @@ export declare function rgbToHex(rgb: string, noCheck?: boolean): string;
 export declare function aop(originFun: Function, beforeFun: Function | null, afterFun?: Function): Function;
 export declare function bind(fun: Function, ctx: Object): Function;
 export declare function isEmptyObj(obj: Object): boolean;
+export declare function toFastProperties(obj: Object): Object | never;
