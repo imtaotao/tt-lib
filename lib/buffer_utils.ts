@@ -2,7 +2,7 @@ import { AudioCtx, platform, logError } from './utils'
 
 export declare const Buffer:any
 
-export function bufferToArrayBuffer (buffer:Buffer) : ArrayBuffer {
+export function bufferToArraybuffer (buffer:Buffer) : ArrayBuffer {
   const arraybuffer = new ArrayBuffer(buffer.length)
   const view = new Uint8Array(arraybuffer)
 
@@ -13,9 +13,9 @@ export function bufferToArrayBuffer (buffer:Buffer) : ArrayBuffer {
   return arraybuffer
 }
 
-export function arrayBufferToBuffer (arraybuffer:ArrayBuffer) : Buffer {
-  if (platform.browser || platform.webpack) {
-    logError('Buffer utils', '[ Buffer\'s arrayBufferToBuffer ] method Must be used in "node" or "electron"', true)
+export function arraybufferToBuffer (arraybuffer:ArrayBuffer) : Buffer {
+  if (platform.browser || platform.build) {
+    logError('Buffer utils', '[ arrayBufferToBuffer ] method Must be used in "node" or "electron"', true)
   }
 
   const buffer = new Buffer(arraybuffer.byteLength)
@@ -28,14 +28,14 @@ export function arrayBufferToBuffer (arraybuffer:ArrayBuffer) : Buffer {
   return buffer
 }
 
-export function arrayBufferToAudioBuffer (arraybuffer:ArrayBuffer) : Promise<AudioBuffer> {
+export function arraybufferToAudiobuffer (arraybuffer:ArrayBuffer) : Promise<AudioBuffer> {
   const ac = AudioCtx
   return ac.decodeAudioData(arraybuffer)
   .then(audioBuffer => audioBuffer)
   .catch(error => error)
 }
 
-export function blobToArrayBuffer (blob:Blob) : Promise<ArrayBuffer> {
+export function blobToArraybuffer (blob:Blob) : Promise<ArrayBuffer> {
   return new Promise((resolve) => {
     const reader = new FileReader
     reader.readAsArrayBuffer(blob)
@@ -43,7 +43,7 @@ export function blobToArrayBuffer (blob:Blob) : Promise<ArrayBuffer> {
   })
 }
 
-export function blobToAudioBuffer (blob:Blob) : Promise<AudioBuffer> {
+export function blobToAudiobuffer (blob:Blob) : Promise<AudioBuffer> {
   return new Promise((resolve) => {
     const ac = AudioCtx
     const reader = new FileReader
@@ -54,11 +54,11 @@ export function blobToAudioBuffer (blob:Blob) : Promise<AudioBuffer> {
   })
 }
 
-export function arrayBufferToBlob (arraybuffer:ArrayBuffer, mimeType:string) : Blob {
+export function arraybufferToBlob (arraybuffer:ArrayBuffer, mimeType:string) : Blob {
   return new Blob([arraybuffer], {type: mimeType})
 }
 
-export function audioBufferToArrayBuffer (audioBuffer:AudioBuffer) : ArrayBuffer {
+export function audiobufferToArraybuffer (audioBuffer:AudioBuffer) : ArrayBuffer {
   const channel = audioBuffer.numberOfChannels
 
   function collect (buffers) {
@@ -91,7 +91,7 @@ export function audioBufferToArrayBuffer (audioBuffer:AudioBuffer) : ArrayBuffer
 	return collect(buffers).buffer
 }
 
-export function arrayBufferToAcResource (ac:AudioContext, arraybuffer:ArrayBuffer, volume = 1) : Promise<AudioBufferSourceNode> {
+export function arraybufferToAcResource (ac:AudioContext, arraybuffer:ArrayBuffer, volume = 1) : Promise<AudioBufferSourceNode> {
   return ac.decodeAudioData(arraybuffer)
   .then(audioBuffer => {
     const source = ac.createBufferSource()
@@ -120,7 +120,7 @@ export function mergeArraybuffer (buffers:ArrayBuffer[]) : ArrayBuffer {
   }, buffers[0])
 }
 
-export function mergeAduioBuffer(buffers:AudioBuffer[]) : AudioBuffer {
+export function mergeAduiobuffer(buffers:AudioBuffer[]) : AudioBuffer {
   const ac = AudioCtx
   const channels = 2
   function getLength () {
@@ -171,7 +171,7 @@ export function cloneBuffer (buffer:Buffer, isDeep?:boolean) : Buffer {
   return result
 }
 
-export function cloneArrayBuffer (arrayBuffer:ArrayBuffer) : ArrayBuffer {
+export function cloneArraybuffer (arrayBuffer:ArrayBuffer) : ArrayBuffer {
   const result = new (<any>arrayBuffer).constructor(arrayBuffer.byteLength)
   new Uint8Array(result).set(new Uint8Array(arrayBuffer))
 
@@ -180,7 +180,7 @@ export function cloneArrayBuffer (arrayBuffer:ArrayBuffer) : ArrayBuffer {
 
 export function cloneDataView (dataView:DataView, isDeep?:boolean) : DataView {
   const buffer = isDeep
-    ? cloneArrayBuffer(dataView.buffer)
+    ? cloneArraybuffer(dataView.buffer)
     : dataView.buffer
 
   return new (<any>dataView).constructor(buffer, dataView.byteOffset, dataView.byteLength)

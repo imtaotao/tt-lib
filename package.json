@@ -1,5 +1,5 @@
 {
-  "name": "tt-utils",
+  "name": "ttlib",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -7,8 +7,8 @@
     "i": "rm -rf ./node_modules && yarn",
     "clean": "rm -rf ./build",
     "start": "webpack-dev-server",
-    "buildw": "webpack",
-    "build": "yarn clean && tsc --pretty --noEmitOnError",
+    "build:ts": "yarn clean && tsc --pretty --noEmitOnError",
+    "build:js": "rollup build/index.js --file ttLib.js --format es --watch",
     "watch": "tsc --watch --pretty --noEmitOnError"
   },
   "author": "",

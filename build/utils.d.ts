@@ -3,11 +3,11 @@ export declare const platform: {
     browser: boolean;
     node: boolean;
     electron: boolean;
-    webpack: boolean;
+    build: boolean;
 };
 export declare const AudioCtx: AudioContext;
 export declare function require(nodeModule: any): any;
-export declare function getClassStr(val: any): string;
+export declare function getClassOf(val: any): string;
 export declare function isString(string: any): boolean;
 export declare function isNumber(number: any): boolean;
 export declare function isBoolean(boolean: any): boolean;

@@ -1,4 +1,7 @@
 import tt from './build'
+// import a from './ttLib'
+
+// console.log(a);
 
 window.t = tt
 window.b = tt.Buffer

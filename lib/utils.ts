@@ -2,19 +2,21 @@ import { initEnv } from './init_env'
 export * from './response_data'
 
 export const platform = (() => {
+  const _this = (0, eval)('this')
   const haveGlobal = typeof global === 'object'
-  const haveBrowserWindow = typeof this.window === 'object'
+  const haveBrowserWindow = !!_this && typeof _this.window === 'object'
+  const haveEletronStr = navigator.userAgent.includes('Electron')
 
   const browser = haveBrowserWindow && !haveGlobal
   const node = !browser && haveGlobal && global.constructor.name === 'Object'
-  const webpack = !haveBrowserWindow && haveGlobal && global.constructor.name === 'Window'
-  const electron = haveBrowserWindow && haveGlobal && global.constructor.name === 'Window'
+  const build = !haveBrowserWindow && haveGlobal && global.constructor.name === 'Window'
+  const electron = haveEletronStr && haveBrowserWindow && haveGlobal && global.constructor.name === 'Window'
 
   return {
     browser,
     node,
     electron,
-    webpack,
+    build,
   }
 })()
 
@@ -26,28 +28,28 @@ export function require (nodeModule) {
   return require(nodeModule)
 }
 
-export function getClassStr (val:any) : string {
+export function getClassOf (val:any) : string {
   return Object.prototype.toString.call(val)
 }
 
 export function isString (string:any) {
-  return getClassStr(string) === '[object String]'
+  return getClassOf(string) === '[object String]'
 }
 
 export function isNumber (number:any) : boolean {
-  return !Number.isNaN(number) && getClassStr(number) === '[object Number]'
+  return !Number.isNaN(number) && getClassOf(number) === '[object Number]'
 }
 
 export function isBoolean (boolean:any) : boolean {
-  return getClassStr(boolean) === '[object Boolean]'
+  return getClassOf(boolean) === '[object Boolean]'
 }
 
 export function isObject (object:any) : boolean {
-  return getClassStr(object) === '[object Object]'
+  return getClassOf(object) === '[object Object]'
 }
 
 export function isFunction (func:any) : boolean {
-  const tag = getClassStr(func)
+  const tag = getClassOf(func)
   return  tag === '[object Function]' || tag === '[object AsyncFunction]' || tag === '[object GeneratorFunction]' || tag === '[object Proxy]'
 }
 
